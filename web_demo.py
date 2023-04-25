@@ -1,9 +1,11 @@
 from transformers import AutoModel, AutoTokenizer
 import gradio as gr
 import mdtex2html
-
-tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
+import torch
+device = torch.device('cuda:2')
+torch.cuda.set_device(device)
+tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", cache_dir='/workspace/cache',trust_remote_code=True)
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", cache_dir='/workspace/cache',trust_remote_code=True).half().cuda()
 model = model.eval()
 
 """Override Chatbot.postprocess"""
